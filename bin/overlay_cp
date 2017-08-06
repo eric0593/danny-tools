@@ -1,0 +1,8 @@
+#!/bin/sh
+#danny 20170806 copy file with full path. android overlay
+dir=`dirname $1`
+if [ ! -d $2/$dir ];then
+    mkdir -p $2/$dir
+    cp $1 $2/$dir
+fi
+
