@@ -1,0 +1,29 @@
+[user]
+	email = danny.tab@qq.com
+	name = danny
+
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --topo-order
+[guitool "remove-line-end-tab-space"]
+	cmd = sed -i 's/[ \t]*$//g' $FILENAME
+	noconsole = yes
+[guitool "replace-line-start-4space-to-tab"]
+	cmd = sed -i 's/^    */\t/g' $FILENAME
+	noconsole = yes
+
+[guitool "edit-file"]
+	cmd = gvim $FILENAME
+	noconsole = yes
+[guitool "delete-file"]
+	cmd = rm $FILENAME
+	noconsole = yes
+[color]
+	ui = auto
+
+[url "https://aosp.tuna.tsinghua.edu.cn/"]
+	insteadOf = https://android.googlesource.com/
+
+[url "https://aosp.tuna.tsinghua.edu.cn/"]
+	insteadOf = http://android.googlesource.com/
+[url "https://hongkong.source.codeaurora.org"]
+	insteadOf = https://source.codeaurora.org
