@@ -10,6 +10,8 @@ do
 	if [ ! -d $name ];then
 		git clone --bare $codeserver:$repo $name
 	else
-		git fetch $name
+		cd $name
+		git fetch --all
+		cd ..
 	fi
 done
