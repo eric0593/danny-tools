@@ -2,6 +2,7 @@
 # modification history
 # 2018/12/21 long file name cut to 256
 # 2018/12/21 do not rename while file exist
+# 2020/11/29 python3 support
 import  sys
 import xlrd
 import os.path
@@ -11,8 +12,8 @@ def open_excel(file= 'file.xls'):
     try:
         data = xlrd.open_workbook(file)
         return data
-    except Exception,e:
-        print str(e)
+    except Exception as e:
+        print ("Exception" , e)
 
 def excel_table_byindex(file= 'file.xls',colnameindex=0,by_index=0):
     data = open_excel(file)
@@ -64,7 +65,7 @@ def replace_invalid_filename_char(filename, replaced_char='-'):
 def main():
     
     if len(sys.argv) < 3:
-        print 'cmd python qc-ducomment-rename.py document-folder SolutionTitles.xls'  
+        print ('cmd python qc-ducomment-rename.py document-folder SolutionTitles.xls')
         sys.exit()
     tables = excel_table_byname(sys.argv[2],0,"SolutionTitles")     
     for parent,dirnames,filenames in os.walk(sys.argv[1]):
@@ -76,21 +77,20 @@ def main():
             print("the full name of the file is: " + aliasname)
             for row in tables:              
               if aliasname.find(row['DCN']+'-') == 0:
-              	if re.match(row['DCN']+'-'+"[A-Z]"+'-',aliasname):
-              		finalname = re.match(row['DCN']+'-'+"[A-Z]"+'-',aliasname).group()+re.sub("[^A-Za-z0-9]", "-", row['Title'].encode('utf-8'))
-              	else:
-                	finalname = row['DCN']+"-"+re.sub("[^A-Za-z0-9]", "-", row['Title'].encode('utf-8'))
+                if re.match(row['DCN']+'-'+"[A-Z]"+'-',aliasname):
+                  finalname = re.match(row['DCN']+'-'+"[A-Z]"+'-',aliasname).group()+re.sub("[^A-Za-z0-9]","-", row['Title'])
+                else:
+                  finalname = row['DCN']+"-"+re.sub("[^A-Za-z0-9]","-",row['Title'])
                 finalname = finalname.replace('--','-')
                 finalname = finalname.replace('--','-')
                 finalname = finalname.replace('--','-')
                 full_basename = os.path.join(parent,finalname)
-                
                 if len(full_basename) > 252:
-                	print ("full basename  ", full_basename)
-                	full_basename=full_basename[0:251]
+                  print ("full basename  ", full_basename)
+                  full_basename=full_basename[0:251]
                 full_finalname = full_basename+ext
                 if os.path.exists(full_finalname):
-                	break
+                  break
                 if os.path.join(parent,filename) != full_finalname:
                   os.rename(os.path.join(parent,filename), full_finalname)
                   break
